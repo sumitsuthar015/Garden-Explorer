@@ -1,0 +1,51 @@
+export * from "./enums";
+export * from "./auth";
+export * from "./gardens";
+export * from "./locations";
+export * from "./activities";
+export * from "./quizzes";
+export * from "./trails";
+export * from "./qr";
+export * from "./badges";
+export * from "./analytics";
+export * from "./media";
+export * from "./audit";
+export * from "./site-settings";
+export * from "./relations";
+
+import type { InferInsertModel, InferSelectModel } from "drizzle-orm";
+
+import { activities } from "./activities";
+import { activityEvents, analyticsEvents, quizAttemptEvents, scanEvents } from "./analytics";
+import { adminAuditLogs } from "./audit";
+import { badges } from "./badges";
+import { gardens } from "./gardens";
+import { locationContentBlocks, locationFacts, locations } from "./locations";
+import { mediaAssets } from "./media";
+import { qrCodes } from "./qr";
+import { quizOptions, quizQuestions, quizzes } from "./quizzes";
+import { siteSettings } from "./site-settings";
+import { trailStops, trails } from "./trails";
+
+/** Convenience aliases so queries and actions can share one import path. */
+export type Garden = InferSelectModel<typeof gardens>;
+export type NewGarden = InferInsertModel<typeof gardens>;
+export type Location = InferSelectModel<typeof locations>;
+export type NewLocation = InferInsertModel<typeof locations>;
+export type LocationFact = InferSelectModel<typeof locationFacts>;
+export type LocationContentBlock = InferSelectModel<typeof locationContentBlocks>;
+export type Activity = InferSelectModel<typeof activities>;
+export type Quiz = InferSelectModel<typeof quizzes>;
+export type QuizQuestion = InferSelectModel<typeof quizQuestions>;
+export type QuizOption = InferSelectModel<typeof quizOptions>;
+export type Trail = InferSelectModel<typeof trails>;
+export type TrailStop = InferSelectModel<typeof trailStops>;
+export type QrCode = InferSelectModel<typeof qrCodes>;
+export type Badge = InferSelectModel<typeof badges>;
+export type ScanEvent = InferSelectModel<typeof scanEvents>;
+export type AnalyticsEvent = InferSelectModel<typeof analyticsEvents>;
+export type QuizAttemptEvent = InferSelectModel<typeof quizAttemptEvents>;
+export type ActivityEvent = InferSelectModel<typeof activityEvents>;
+export type MediaAsset = InferSelectModel<typeof mediaAssets>;
+export type AdminAuditLog = InferSelectModel<typeof adminAuditLogs>;
+export type SiteSettings = InferSelectModel<typeof siteSettings>;

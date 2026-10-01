@@ -421,4 +421,3 @@ the dashboard should start at zero.
 | Database login fails after claiming or resetting a Neon project | Neon issued a new password. Copy the new connection string into `DATABASE_URL`. |
 | Scanning a printed sign opens `localhost` | `NEXT_PUBLIC_APP_URL` was not set to the public URL when the signs were printed. Fix it and reprint. |
 | Photo uploads fail in the admin | Check the three `CLOUDINARY_*` variables, or use the built-in garden photos. |
-"# Garden-Explorer" 

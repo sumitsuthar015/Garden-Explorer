@@ -1,0 +1,1 @@
+ALTER TYPE "public"."location_category" ADD VALUE 'coding';
