@@ -239,7 +239,7 @@ is created when the server starts.
 | `DATABASE_URL` | Yes | Neon **pooled** connection string, including `?sslmode=require`. |
 | `BETTER_AUTH_SECRET` | Yes | At least 32 characters (`openssl rand -base64 32`). Changing it signs every admin out. |
 | `BETTER_AUTH_URL` | In production | The site's public origin, with no trailing slash. |
-| `NEXT_PUBLIC_APP_URL` | Yes | The public URL that QR codes, canonical links, the sitemap and link previews use. **Printed signs encode it**, so it must be the final address. |
+| `NEXT_PUBLIC_APP_URL` | Off Vercel | The public URL that QR codes, canonical links, the sitemap and link previews use. **Printed signs encode it**, so it must be the final address. On Vercel it can be left out: production then uses the project's production domain (a custom domain once one is added). |
 | `CLOUDINARY_CLOUD_NAME`, `CLOUDINARY_API_KEY`, `CLOUDINARY_API_SECRET` | Optional | Needed only for uploading new photos. Without them, uploads are switched off and the built-in garden photos still work. |
 | `CLOUDINARY_UPLOAD_FOLDER` | Optional | Defaults to `garden-explorer`. |
 | `GARDEN_ANALYTICS_SALT` | Optional | Extra salt for anonymous analytics. |
@@ -310,8 +310,9 @@ To add or replace a photo:
 
 ## Printing QR signs
 
-1. Deploy the site and set `NEXT_PUBLIC_APP_URL` to its public address. The admin shows a warning
-   while QR codes still point at `localhost`, because phones cannot open those.
+1. Deploy the site and print from the **live** site's admin, so QR codes carry its public address.
+   Pick the final domain first: printed signs encode it. The admin shows a warning while QR codes
+   still point at `localhost`, because phones cannot open those.
 2. **Admin → QR codes** prints one sign per page, or all signs on a sheet.
 3. **Admin → Trails → (a trail)** prints the **trail start poster**, whose QR opens the trail's
    adventure map, and a sheet of that trail's signs in walking order.
@@ -357,8 +358,9 @@ the dashboard should start at zero.
 
 1. Create a Neon project and copy its **pooled** connection string.
 2. Import the repository into Vercel. In **Project → Settings → Environment Variables**, add the
-   variables from the table above. Set `BETTER_AUTH_URL` and `NEXT_PUBLIC_APP_URL` to the
-   production URL.
+   variables from the table above. Set `BETTER_AUTH_URL` to the production URL.
+   `NEXT_PUBLIC_APP_URL` is optional on Vercel. If you add it, turn **Sensitive** off: Vercel
+   rejects sensitive variables whose names start with `NEXT_PUBLIC_`.
 3. From your machine, with `DATABASE_URL` pointing at the production database, run:
    `npm run db:migrate`, then `npm run db:seed`, then `npm run admin:create`.
 4. Deploy, then run `npm run check -- --url https://your-site`.
@@ -419,5 +421,6 @@ the dashboard should start at zero.
 | Database connections fail at random, especially from India to a US Neon region | Usually broken IPv6. `lib/network.ts` gives each connection attempt longer to answer, and `db/index.ts` applies it automatically. |
 | The site still shows old data after changing `DATABASE_URL` | Restart `npm run dev`. |
 | Database login fails after claiming or resetting a Neon project | Neon issued a new password. Copy the new connection string into `DATABASE_URL`. |
-| Scanning a printed sign opens `localhost` | `NEXT_PUBLIC_APP_URL` was not set to the public URL when the signs were printed. Fix it and reprint. |
+| Scanning a printed sign opens `localhost` | The signs were printed from a local copy. Print them from the live site's admin. |
+| Vercel: "public framework prefix cannot use `visibility: secret`" | Add `NEXT_PUBLIC_APP_URL` with **Sensitive** off, or leave it out on Vercel. |
 | Photo uploads fail in the admin | Check the three `CLOUDINARY_*` variables, or use the built-in garden photos. |

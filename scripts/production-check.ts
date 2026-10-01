@@ -63,7 +63,11 @@ async function checkEnv(): Promise<void> {
 
   const appUrl = process.env.NEXT_PUBLIC_APP_URL;
   if (!appUrl) {
-    record("warn", "NEXT_PUBLIC_APP_URL", "not set — QR links fall back to the request host");
+    record(
+      "warn",
+      "NEXT_PUBLIC_APP_URL",
+      "not set — on Vercel production the project's domain is used, elsewhere the request host",
+    );
   } else if (!appUrl.startsWith("https://")) {
     record("warn", "NEXT_PUBLIC_APP_URL", `should be https in production (got ${appUrl})`);
   } else {

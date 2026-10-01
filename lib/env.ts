@@ -140,6 +140,14 @@ export const isProduction = process.env.NODE_ENV === "production";
 
 /**
  * Public app URL used for QR payloads, canonical tags, sitemap and OG metadata.
- * Falls back to the request host at runtime when unset (see `lib/site-url.ts`).
+ *
+ * `NEXT_PUBLIC_APP_URL` wins when set. Otherwise a Vercel production deployment
+ * uses the project's production domain, which Vercel provides automatically and
+ * which follows a custom domain once one is added, so printed QR codes stay
+ * stable. Elsewhere it falls back to the request host (see `lib/site-url.ts`).
  */
-export const PUBLIC_APP_URL = process.env.NEXT_PUBLIC_APP_URL ?? "";
+export const PUBLIC_APP_URL =
+  process.env.NEXT_PUBLIC_APP_URL ||
+  (process.env.VERCEL_ENV === "production" && process.env.VERCEL_PROJECT_PRODUCTION_URL
+    ? `https://${process.env.VERCEL_PROJECT_PRODUCTION_URL}`
+    : "");

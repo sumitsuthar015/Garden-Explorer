@@ -26,8 +26,9 @@ export function QrOriginWarning({ origin }: { origin: string }) {
           <p>
             They point to <code className="font-mono font-semibold">{origin}</code>, which a
             visitor&apos;s phone cannot open. Before printing signs for the garden, put the site
-            online (for example on Vercel) and set <code className="font-mono">NEXT_PUBLIC_APP_URL</code>{" "}
-            to its public address. Print after that, so every QR carries the public address.
+            online (for example on Vercel) and print from the live site&apos;s admin, so every QR
+            carries the public address. Off Vercel, also set{" "}
+            <code className="font-mono">NEXT_PUBLIC_APP_URL</code> to that address.
           </p>
           <p className="mt-1.5">
             The short code printed under each QR never changes, so visitors can always type it on
